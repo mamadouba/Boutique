@@ -1,0 +1,105 @@
+package com.bantignel.boutique.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.bantignel.boutique.model.Fournisseur;
+import com.bantignel.boutique.service.FournisseurService;
+
+
+@Controller
+//@RequestMapping("/fournisseur")
+public class FournisseurController {
+	@Autowired
+	private FournisseurService service;
+	
+	@RequestMapping(value="/fournisseur/new",method=RequestMethod.GET)
+	public ModelAndView add(){
+		ModelAndView model = new ModelAndView("addFournisseur");
+		model.addObject("fournisseur", new Fournisseur());
+		loadDefault(model);
+		return model;
+	}
+	
+	@RequestMapping(value="/fournisseur/add", method=RequestMethod.POST)
+	public ModelAndView add(@Valid @ModelAttribute("fournisseur") final Fournisseur fournisseur, BindingResult result){
+		if(result.hasErrors()){
+			ModelAndView model = new ModelAndView("addFournisseur");
+			model.addObject("msg","Fournisseur invalide");
+			model.addObject("fournisseur",fournisseur);
+			loadDefault(model);
+			return model;
+	   }
+		service.add(fournisseur);
+		return new ModelAndView("redirect:/fournisseur/list");
+	}
+	
+	@RequestMapping(value="/fournisseur/{id}/edit", method=RequestMethod.GET)
+	public ModelAndView edit(@PathVariable("id")final int id){
+		Fournisseur fournisseur = service.get(id);
+		ModelAndView model = new ModelAndView("editFournisseur");
+		loadDefault(model);
+		model.addObject("fournisseur",fournisseur);
+		return model;
+	}
+	
+	@RequestMapping(value="/fournisseur/edit", method=RequestMethod.POST)
+	public ModelAndView edit(@Valid @ModelAttribute("fournisseur") final Fournisseur fournisseur, BindingResult result){
+		if(result.hasErrors()){
+			ModelAndView model = new ModelAndView("editFournisseur");
+			model.addObject("msg","Fournisseur invalide");
+			model.addObject("fournisseur",fournisseur);
+			loadDefault(model);
+			return model;
+	   }
+		service.edit(fournisseur);
+		return new ModelAndView("redirect:/fournisseur/list");
+	}
+	
+	@RequestMapping(value="/fournisseur/list", method=RequestMethod.GET)
+	public ModelAndView list(){
+		final List<Fournisseur> listFournisseur = service.list();
+		ModelAndView model = new ModelAndView("listFournisseur");
+		model.addObject("listFournisseur", listFournisseur);
+		return model;
+	}
+	
+	@RequestMapping(value="/fournisseur/{id}/delete", method=RequestMethod.GET)
+	public ModelAndView delete(@PathVariable("id")final int id){
+		service.delete(id);
+		return new ModelAndView("redirect:/fournisseur/list");
+	}
+	
+	@RequestMapping(value="/fournisseur/{id}", method=RequestMethod.GET)
+	public ModelAndView get(@PathVariable("id")final int id){
+		ModelAndView model = new ModelAndView("fournisseur");
+		Fournisseur fournisseur = service.get(id);
+		if(fournisseur == null){
+			model.addObject("msg","Fournisseur introuvable");
+			model.addObject("css","danger");
+			return model;
+		}
+		model.addObject("fournisseur",fournisseur);
+		return model;
+	}
+	
+	public void loadDefault(ModelAndView model){
+		List<String> categories = new ArrayList<String>();
+		categories.add("Gold");
+		categories.add("Premium");
+		categories.add("Silver");
+		model.addObject("categories",categories);
+	}
+}
