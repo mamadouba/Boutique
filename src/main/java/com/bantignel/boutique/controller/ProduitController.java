@@ -1,6 +1,5 @@
 package com.bantignel.boutique.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -43,7 +42,11 @@ public class ProduitController {
 			return model;
 	   }
 		service.add(produit);
-		return new ModelAndView("redirect:/produit/list");
+		ModelAndView model = new ModelAndView("produit");
+		model.addObject("css","success");
+		model.addObject("action","add");
+		model.addObject("msg","Produit ajouté avec succès");
+		return  model;
 	}
 	
 	@RequestMapping(value="/produit/{id}/edit", method=RequestMethod.GET)
@@ -65,7 +68,11 @@ public class ProduitController {
 			return model;
 	   }
 		service.edit(produit);
-		return new ModelAndView("redirect:/produit/list");
+		ModelAndView model = new ModelAndView("produit");
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","Produit modifié avec succès");
+		return  model;
 	}
 	
 	@RequestMapping(value="/produit/list", method=RequestMethod.GET)
@@ -87,19 +94,20 @@ public class ProduitController {
 		ModelAndView model = new ModelAndView("produit");
 		Produit produit = service.get(id);
 		if(produit == null){
-			model.addObject("msg","Produit introuvable");
+			model.addObject("produit",produit);
 			model.addObject("css","danger");
-			return model;
+			model.addObject("action","update");
+			model.addObject("msg","Produit introuvable");
+			return  model;
 		}
 		model.addObject("produit",produit);
-		return model;
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","Produit trouvé avec succès");
+		return  model;
 	}
 	
 	public void loadDefault(ModelAndView model){
-		List<String> categories = new ArrayList<String>();
-		categories.add("Gold");
-		categories.add("Premium");
-		categories.add("Silver");
-		model.addObject("categories",categories);
+		
 	}
 }

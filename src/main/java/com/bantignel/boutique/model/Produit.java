@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class Produit {
 	@Id
 	@GeneratedValue
-	private int idProduit;
+	private int id;
 	private String nom;
 	@ManyToOne
 	private Fournisseur fournisseur;
@@ -39,12 +39,14 @@ public class Produit {
 		super();
 	}
 
-	public int getIdProduit() {
-		return idProduit;
+	public int getId() {
+		return id;
 	}
-	public void setIdProduit(int idProduit) {
-		this.idProduit = idProduit;
+
+	public void setId(int id) {
+		this.id = id;
 	}
+
 	public String getNom() {
 		return nom;
 	}

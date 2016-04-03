@@ -1,6 +1,5 @@
 package com.bantignel.boutique.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,55 +19,63 @@ import com.bantignel.boutique.service.CategorieProduitService;
 
 
 @Controller
-//@RequestMapping("/categorieproduit")
+//@RequestMapping("/categorieProduit")
 public class CategorieProduitController {
 	@Autowired
 	private CategorieProduitService service;
 	
-	@RequestMapping(value="/categorieproduit/new",method=RequestMethod.GET)
+	@RequestMapping(value="/categorieProduit/new",method=RequestMethod.GET)
 	public ModelAndView add(){
 		ModelAndView model = new ModelAndView("addCategorieProduit");
-		model.addObject("categorieproduit", new CategorieProduit());
+		model.addObject("categorieProduit", new CategorieProduit());
 		loadDefault(model);
 		return model;
 	}
 	
-	@RequestMapping(value="/categorieproduit/add", method=RequestMethod.POST)
-	public ModelAndView add(@Valid @ModelAttribute("categorieproduit") final CategorieProduit categorieproduit, BindingResult result){
+	@RequestMapping(value="/categorieProduit/add", method=RequestMethod.POST)
+	public ModelAndView add(@Valid @ModelAttribute("categorieProduit") final CategorieProduit categorieProduit, BindingResult result){
 		if(result.hasErrors()){
 			ModelAndView model = new ModelAndView("addCategorieProduit");
 			model.addObject("msg","CategorieProduit invalide");
-			model.addObject("categorieproduit",categorieproduit);
+			model.addObject("categorieProduit",categorieProduit);
 			loadDefault(model);
 			return model;
 	   }
-		service.add(categorieproduit);
-		return new ModelAndView("redirect:/categorieproduit/list");
+		service.add(categorieProduit);
+		ModelAndView model = new ModelAndView("categorieProduit");
+		model.addObject("css","success");
+		model.addObject("action","add");
+		model.addObject("msg","CategorieProduit ajouté avec succès");
+		return  model;
 	}
 	
-	@RequestMapping(value="/categorieproduit/{id}/edit", method=RequestMethod.GET)
+	@RequestMapping(value="/categorieProduit/{id}/edit", method=RequestMethod.GET)
 	public ModelAndView edit(@PathVariable("id")final int id){
-		CategorieProduit categorieproduit = service.get(id);
+		CategorieProduit categorieProduit = service.get(id);
 		ModelAndView model = new ModelAndView("editCategorieProduit");
 		loadDefault(model);
-		model.addObject("categorieproduit",categorieproduit);
+		model.addObject("categorieProduit",categorieProduit);
 		return model;
 	}
 	
-	@RequestMapping(value="/categorieproduit/edit", method=RequestMethod.POST)
-	public ModelAndView edit(@Valid @ModelAttribute("categorieproduit") final CategorieProduit categorieproduit, BindingResult result){
+	@RequestMapping(value="/categorieProduit/edit", method=RequestMethod.POST)
+	public ModelAndView edit(@Valid @ModelAttribute("categorieProduit") final CategorieProduit categorieProduit, BindingResult result){
 		if(result.hasErrors()){
 			ModelAndView model = new ModelAndView("editCategorieProduit");
 			model.addObject("msg","CategorieProduit invalide");
-			model.addObject("categorieproduit",categorieproduit);
+			model.addObject("categorieProduit",categorieProduit);
 			loadDefault(model);
 			return model;
 	   }
-		service.edit(categorieproduit);
-		return new ModelAndView("redirect:/categorieproduit/list");
+		service.edit(categorieProduit);
+		ModelAndView model = new ModelAndView("categorieProduit");
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","CategorieProduit modifié avec succès");
+		return  model;
 	}
 	
-	@RequestMapping(value="/categorieproduit/list", method=RequestMethod.GET)
+	@RequestMapping(value="/categorieProduit/list", method=RequestMethod.GET)
 	public ModelAndView list(){
 		final List<CategorieProduit> listCategorieProduit = service.list();
 		ModelAndView model = new ModelAndView("listCategorieProduit");
@@ -76,30 +83,31 @@ public class CategorieProduitController {
 		return model;
 	}
 	
-	@RequestMapping(value="/categorieproduit/{id}/delete", method=RequestMethod.GET)
+	@RequestMapping(value="/categorieProduit/{id}/delete", method=RequestMethod.GET)
 	public ModelAndView delete(@PathVariable("id")final int id){
 		service.delete(id);
-		return new ModelAndView("redirect:/categorieproduit/list");
+		return new ModelAndView("redirect:/categorieProduit/list");
 	}
 	
-	@RequestMapping(value="/categorieproduit/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/categorieProduit/{id}", method=RequestMethod.GET)
 	public ModelAndView get(@PathVariable("id")final int id){
-		ModelAndView model = new ModelAndView("categorieproduit");
-		CategorieProduit categorieproduit = service.get(id);
-		if(categorieproduit == null){
-			model.addObject("msg","CategorieProduit introuvable");
+		ModelAndView model = new ModelAndView("categorieProduit");
+		CategorieProduit categorieProduit = service.get(id);
+		if(categorieProduit == null){
+			model.addObject("categorieProduit",categorieProduit);
 			model.addObject("css","danger");
-			return model;
+			model.addObject("action","update");
+			model.addObject("msg","CategorieProduit introuvable");
+			return  model;
 		}
-		model.addObject("categorieproduit",categorieproduit);
-		return model;
+		model.addObject("categorieProduit",categorieProduit);
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","CategorieProduit trouvé avec succès");
+		return  model;
 	}
 	
 	public void loadDefault(ModelAndView model){
-		List<String> categories = new ArrayList<String>();
-		categories.add("Gold");
-		categories.add("Premium");
-		categories.add("Silver");
-		model.addObject("categories",categories);
+		
 	}
 }

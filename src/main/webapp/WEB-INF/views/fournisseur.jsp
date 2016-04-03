@@ -8,7 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-<title>Détail client</title>
+<title>Détail fournisseur</title>
 </head>
 <body>
     <div class="container">
@@ -20,46 +20,46 @@
 				<strong>${msg}</strong>
 			</div>
 		</c:if>
-        <h2>Détail du client</h2>
+        <h2>Détail du fournisseur</h2>
 		<div class="row">
 			<label class="col-sm-2">Nom</label>
-			<div class="col-sm-10">${client.nom}</div>
+			<div class="col-sm-10">${fournisseur.nom}</div>
 		</div>
 		<div class="row">
 			<label class="col-sm-2">Prénom</label>
-			<div class="col-sm-10">${client.prenom}</div>
+			<div class="col-sm-10">${fournisseur.prenom}</div>
 		</div>
 		
 		<div class="row">
 			<label class="col-sm-2">Téléphone</label>
-			<div class="col-sm-10">${client.telephone}</div>
+			<div class="col-sm-10">${fournisseur.telephone}</div>
 		</div>
 		
 		<div class="row">
 			<label class="col-sm-2">Email</label>
-			<div class="col-sm-10">${client.email}</div>
+			<div class="col-sm-10">${fournisseur.email}</div>
 		</div>
 		
 		<div class="row">
 			<label class="col-sm-2">Adresse</label>
-			<div class="col-sm-10">${client.adresse}</div>
+			<div class="col-sm-10">${fournisseur.adresse}</div>
 		</div>
 		
 		<div class="row">
 			<label class="col-sm-2">Catégorie</label>
-			<div class="col-sm-10">${client.categorie}</div>
+			<div class="col-sm-10">${fournisseur.categorie}</div>
 		</div>
 		<div class="form-group">
 			<c:if test="${action == 'add'}">
 			<div class="col-sm-offset-2 col-sm-10">
-				<spring:url value="/client/new" var="newUrl"></spring:url>
+				<spring:url value="/fournisseur/new" var="newUrl"></spring:url>
 				<button class="btn btn-primary btn-sm pull-right" onclick="location.href='${newUrl}'">Nouveau</button>
 			</div>
 			</c:if>
 			<c:if test="${action == 'update'}">
 			<div class="col-sm-offset-2 col-sm-10">
-				<spring:url value="/client/list" var="listUrl"></spring:url>
-				<button class="btn btn-primary btn-sm pull-right" onclick="location.href='${listUrl}'">Tous les clients</button>
+				<spring:url value="/fournisseur/list" var="listUrl"></spring:url>
+				<button class="btn btn-primary btn-sm pull-right" onclick="location.href='${listUrl}'">Tous les fournisseurs</button>
 			</div>
 			</c:if>
 		</div>

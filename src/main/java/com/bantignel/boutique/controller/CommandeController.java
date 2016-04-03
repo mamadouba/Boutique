@@ -1,6 +1,5 @@
 package com.bantignel.boutique.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -43,7 +42,11 @@ public class CommandeController {
 			return model;
 	   }
 		service.add(commande);
-		return new ModelAndView("redirect:/commande/list");
+		ModelAndView model = new ModelAndView("commande");
+		model.addObject("css","success");
+		model.addObject("action","add");
+		model.addObject("msg","Commande ajouté avec succès");
+		return  model;
 	}
 	
 	@RequestMapping(value="/commande/{id}/edit", method=RequestMethod.GET)
@@ -65,7 +68,11 @@ public class CommandeController {
 			return model;
 	   }
 		service.edit(commande);
-		return new ModelAndView("redirect:/commande/list");
+		ModelAndView model = new ModelAndView("commande");
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","Commande modifié avec succès");
+		return  model;
 	}
 	
 	@RequestMapping(value="/commande/list", method=RequestMethod.GET)
@@ -87,19 +94,20 @@ public class CommandeController {
 		ModelAndView model = new ModelAndView("commande");
 		Commande commande = service.get(id);
 		if(commande == null){
-			model.addObject("msg","Commande introuvable");
+			model.addObject("commande",commande);
 			model.addObject("css","danger");
-			return model;
+			model.addObject("action","update");
+			model.addObject("msg","Commande introuvable");
+			return  model;
 		}
 		model.addObject("commande",commande);
-		return model;
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","Commande trouvé avec succès");
+		return  model;
 	}
 	
 	public void loadDefault(ModelAndView model){
-		List<String> categories = new ArrayList<String>();
-		categories.add("Gold");
-		categories.add("Premium");
-		categories.add("Silver");
-		model.addObject("categories",categories);
+		
 	}
 }

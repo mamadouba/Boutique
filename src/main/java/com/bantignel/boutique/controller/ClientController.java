@@ -43,7 +43,11 @@ public class ClientController {
 			return model;
 	   }
 		service.add(client);
-		return new ModelAndView("redirect:/client/list");
+		ModelAndView model = new ModelAndView("client");
+		model.addObject("css","success");
+		model.addObject("action","add");
+		model.addObject("msg","Client ajouté avec succès");
+		return  model;
 	}
 	
 	@RequestMapping(value="/client/{id}/edit", method=RequestMethod.GET)
@@ -65,7 +69,11 @@ public class ClientController {
 			return model;
 	   }
 		service.edit(client);
-		return new ModelAndView("redirect:/client/list");
+		ModelAndView model = new ModelAndView("client");
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","Client modifié avec succès");
+		return  model;
 	}
 	
 	@RequestMapping(value="/client/list", method=RequestMethod.GET)
@@ -87,12 +95,17 @@ public class ClientController {
 		ModelAndView model = new ModelAndView("client");
 		Client client = service.get(id);
 		if(client == null){
-			model.addObject("msg","Client introuvable");
+			model.addObject("client",client);
 			model.addObject("css","danger");
-			return model;
+			model.addObject("action","update");
+			model.addObject("msg","Client introuvable");
+			return  model;
 		}
 		model.addObject("client",client);
-		return model;
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","Client trouvé avec succès");
+		return  model;
 	}
 	
 	public void loadDefault(ModelAndView model){

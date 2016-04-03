@@ -1,6 +1,5 @@
 package com.bantignel.boutique.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,55 +19,63 @@ import com.bantignel.boutique.service.DetailCommandeService;
 
 
 @Controller
-//@RequestMapping("/detailcommande")
+//@RequestMapping("/detailCommande")
 public class DetailCommandeController {
 	@Autowired
 	private DetailCommandeService service;
 	
-	@RequestMapping(value="/detailcommande/new",method=RequestMethod.GET)
+	@RequestMapping(value="/detailCommande/new",method=RequestMethod.GET)
 	public ModelAndView add(){
 		ModelAndView model = new ModelAndView("addDetailCommande");
-		model.addObject("detailcommande", new DetailCommande());
+		model.addObject("detailCommande", new DetailCommande());
 		loadDefault(model);
 		return model;
 	}
 	
-	@RequestMapping(value="/detailcommande/add", method=RequestMethod.POST)
-	public ModelAndView add(@Valid @ModelAttribute("detailcommande") final DetailCommande detailcommande, BindingResult result){
+	@RequestMapping(value="/detailCommande/add", method=RequestMethod.POST)
+	public ModelAndView add(@Valid @ModelAttribute("detailCommande") final DetailCommande detailCommande, BindingResult result){
 		if(result.hasErrors()){
 			ModelAndView model = new ModelAndView("addDetailCommande");
 			model.addObject("msg","DetailCommande invalide");
-			model.addObject("detailcommande",detailcommande);
+			model.addObject("detailCommande",detailCommande);
 			loadDefault(model);
 			return model;
 	   }
-		service.add(detailcommande);
-		return new ModelAndView("redirect:/detailcommande/list");
+		service.add(detailCommande);
+		ModelAndView model = new ModelAndView("detailCommande");
+		model.addObject("css","success");
+		model.addObject("action","add");
+		model.addObject("msg","DetailCommande ajouté avec succès");
+		return  model;
 	}
 	
-	@RequestMapping(value="/detailcommande/{id}/edit", method=RequestMethod.GET)
+	@RequestMapping(value="/detailCommande/{id}/edit", method=RequestMethod.GET)
 	public ModelAndView edit(@PathVariable("id")final int id){
-		DetailCommande detailcommande = service.get(id);
+		DetailCommande detailCommande = service.get(id);
 		ModelAndView model = new ModelAndView("editDetailCommande");
 		loadDefault(model);
-		model.addObject("detailcommande",detailcommande);
+		model.addObject("detailCommande",detailCommande);
 		return model;
 	}
 	
-	@RequestMapping(value="/detailcommande/edit", method=RequestMethod.POST)
-	public ModelAndView edit(@Valid @ModelAttribute("detailcommande") final DetailCommande detailcommande, BindingResult result){
+	@RequestMapping(value="/detailCommande/edit", method=RequestMethod.POST)
+	public ModelAndView edit(@Valid @ModelAttribute("detailCommande") final DetailCommande detailCommande, BindingResult result){
 		if(result.hasErrors()){
 			ModelAndView model = new ModelAndView("editDetailCommande");
 			model.addObject("msg","DetailCommande invalide");
-			model.addObject("detailcommande",detailcommande);
+			model.addObject("detailCommande",detailCommande);
 			loadDefault(model);
 			return model;
 	   }
-		service.edit(detailcommande);
-		return new ModelAndView("redirect:/detailcommande/list");
+		service.edit(detailCommande);
+		ModelAndView model = new ModelAndView("detailCommande");
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","DetailCommande modifié avec succès");
+		return  model;
 	}
 	
-	@RequestMapping(value="/detailcommande/list", method=RequestMethod.GET)
+	@RequestMapping(value="/detailCommande/list", method=RequestMethod.GET)
 	public ModelAndView list(){
 		final List<DetailCommande> listDetailCommande = service.list();
 		ModelAndView model = new ModelAndView("listDetailCommande");
@@ -76,30 +83,31 @@ public class DetailCommandeController {
 		return model;
 	}
 	
-	@RequestMapping(value="/detailcommande/{id}/delete", method=RequestMethod.GET)
+	@RequestMapping(value="/detailCommande/{id}/delete", method=RequestMethod.GET)
 	public ModelAndView delete(@PathVariable("id")final int id){
 		service.delete(id);
-		return new ModelAndView("redirect:/detailcommande/list");
+		return new ModelAndView("redirect:/detailCommande/list");
 	}
 	
-	@RequestMapping(value="/detailcommande/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/detailCommande/{id}", method=RequestMethod.GET)
 	public ModelAndView get(@PathVariable("id")final int id){
-		ModelAndView model = new ModelAndView("detailcommande");
-		DetailCommande detailcommande = service.get(id);
-		if(detailcommande == null){
-			model.addObject("msg","DetailCommande introuvable");
+		ModelAndView model = new ModelAndView("detailCommande");
+		DetailCommande detailCommande = service.get(id);
+		if(detailCommande == null){
+			model.addObject("detailCommande",detailCommande);
 			model.addObject("css","danger");
-			return model;
+			model.addObject("action","update");
+			model.addObject("msg","DetailCommande introuvable");
+			return  model;
 		}
-		model.addObject("detailcommande",detailcommande);
-		return model;
+		model.addObject("detailCommande",detailCommande);
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","DetailCommande trouvé avec succès");
+		return  model;
 	}
 	
 	public void loadDefault(ModelAndView model){
-		List<String> categories = new ArrayList<String>();
-		categories.add("Gold");
-		categories.add("Premium");
-		categories.add("Silver");
-		model.addObject("categories",categories);
+		
 	}
 }

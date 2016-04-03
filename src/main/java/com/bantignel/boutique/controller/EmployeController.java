@@ -1,6 +1,5 @@
 package com.bantignel.boutique.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -43,7 +42,11 @@ public class EmployeController {
 			return model;
 	   }
 		service.add(employe);
-		return new ModelAndView("redirect:/employe/list");
+		ModelAndView model = new ModelAndView("employe");
+		model.addObject("css","success");
+		model.addObject("action","add");
+		model.addObject("msg","Employe ajouté avec succès");
+		return  model;
 	}
 	
 	@RequestMapping(value="/employe/{id}/edit", method=RequestMethod.GET)
@@ -65,7 +68,11 @@ public class EmployeController {
 			return model;
 	   }
 		service.edit(employe);
-		return new ModelAndView("redirect:/employe/list");
+		ModelAndView model = new ModelAndView("employe");
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","Employe modifié avec succès");
+		return  model;
 	}
 	
 	@RequestMapping(value="/employe/list", method=RequestMethod.GET)
@@ -87,19 +94,20 @@ public class EmployeController {
 		ModelAndView model = new ModelAndView("employe");
 		Employe employe = service.get(id);
 		if(employe == null){
-			model.addObject("msg","Employe introuvable");
+			model.addObject("employe",employe);
 			model.addObject("css","danger");
-			return model;
+			model.addObject("action","update");
+			model.addObject("msg","Employe introuvable");
+			return  model;
 		}
 		model.addObject("employe",employe);
-		return model;
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","Employe trouvé avec succès");
+		return  model;
 	}
 	
 	public void loadDefault(ModelAndView model){
-		List<String> categories = new ArrayList<String>();
-		categories.add("Gold");
-		categories.add("Premium");
-		categories.add("Silver");
-		model.addObject("categories",categories);
+		
 	}
 }

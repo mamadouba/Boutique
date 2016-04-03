@@ -43,7 +43,11 @@ public class FournisseurController {
 			return model;
 	   }
 		service.add(fournisseur);
-		return new ModelAndView("redirect:/fournisseur/list");
+		ModelAndView model = new ModelAndView("fournisseur");
+		model.addObject("css","success");
+		model.addObject("action","add");
+		model.addObject("msg","Fournisseur ajouté avec succès");
+		return  model;
 	}
 	
 	@RequestMapping(value="/fournisseur/{id}/edit", method=RequestMethod.GET)
@@ -65,7 +69,11 @@ public class FournisseurController {
 			return model;
 	   }
 		service.edit(fournisseur);
-		return new ModelAndView("redirect:/fournisseur/list");
+		ModelAndView model = new ModelAndView("fournisseur");
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","Fournisseur modifié avec succès");
+		return  model;
 	}
 	
 	@RequestMapping(value="/fournisseur/list", method=RequestMethod.GET)
@@ -87,12 +95,17 @@ public class FournisseurController {
 		ModelAndView model = new ModelAndView("fournisseur");
 		Fournisseur fournisseur = service.get(id);
 		if(fournisseur == null){
-			model.addObject("msg","Fournisseur introuvable");
+			model.addObject("fournisseur",fournisseur);
 			model.addObject("css","danger");
-			return model;
+			model.addObject("action","update");
+			model.addObject("msg","Fournisseur introuvable");
+			return  model;
 		}
 		model.addObject("fournisseur",fournisseur);
-		return model;
+		model.addObject("css","success");
+		model.addObject("action","update");
+		model.addObject("msg","Fournisseur trouvé avec succès");
+		return  model;
 	}
 	
 	public void loadDefault(ModelAndView model){

@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
- 
  
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <title>Enregistrement client</title>
 <style>
     .error {
@@ -16,60 +16,69 @@
 </style>
 </head>
 <body>
-    <div align="center">
-		<c:if test="${not empty client}">
-        <h3>Modification du client: ${client.prenom} ${client.nom}</h3>
-	        <table border="0" width="90%">
-			<spring:url value="/client/edit" var="addUrl"></spring:url>
-	        <form:form modelAttribute="client" method="post" action="${addUrl}" >
-					<tr>
-						 <td>ID:</td>
-	                     <td align="left" width="40%"><form:input path="id" size="30" value="${client.id}"/></td>
-	 					 <td align="left"><form:errors path="id" cssClass="error"/></td>
-	 				</tr>
-	 				<tr>
-						 <td>Nom:</td>
-	                     <td align="left" width="40%"><form:input path="nom" size="30" value="${client.nom}"/></td>
-	 					 <td align="left"><form:errors path="nom" cssClass="error"/></td>
-	 				</tr>
-	 				<tr>
-						 <td>Prénom:</td>
-	                     <td align="left" width="40%"><form:input path="prenom" size="30" value="${client.prenom}"/></td>
-	 					 <td align="left"><form:errors path="prenom" cssClass="error"/></td>
-	 				</tr>
-	 				<tr>
-						 <td>Télephone:</td>
-	                     <td align="left" width="40%"><form:input path="telephone" size="30" value="${client.telephone}"/></td>
-	 					 <td align="left"><form:errors path="telephone" cssClass="error"/></td>
-	 				</tr>
-	 				<tr>
-						 <td>Email:</td>
-	                     <td align="left" width="40%"><form:input path="email" size="30" value="${client.email}"/></td>
-	 					 <td align="left"><form:errors path="email" cssClass="error"/></td>
-	 				</tr>
-	 				<tr>
-						 <td>Adresse:</td>
-	                     <td align="left" width="40%"><form:input path="adresse" size="30" value="${client.adresse}"/></td>
-	 					 <td align="left"><form:errors path="adresse" cssClass="error"/></td>
-	 				</tr>
-	 				<tr>
-						 <td>Catégorie:</td>
-	                     <td align="left" width="40%">
-							<form:select path="categorie">
-								<form:option value="${client.categorie}"/>
+    <div class="container">
+        <h2>Modification d'un client</h2>
+
+		<c:if test="${not empty msg}">${msg}</c:if>
+		<spring:url value="/client/edit" var="addUrl"></spring:url>
+        <form:form class="form-horizontal" modelAttribute="client" method="post" action="${addUrl}" >
+				<form:hidden path="id" />
+				<div class="form-group">
+					<label for="nom" id="nom" class="col-sm-2 label-control">Nom</label>
+					<div class="col-sm-10">
+						<form:input path="nom" type="text" class="form-control" id="nom" value="${client.nom}" placeholder="Nom" pattern="^[A-Za-z]{3,15}$" required="required"/>
+						<form:errors path="nom" class="control-label"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="prenom" id="prenom" class="col-sm-2 label-control">Prénom</label>
+					<div class="col-sm-10">
+						<form:input path="prenom" type="text" class="form-control" id="nom" value="${client.prenom}" placeholder="Prénom" pattern="^[A-Za-z]{3,15}$" required="required"/>
+						<form:errors path="prenom" class="control-label"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="telephone" id="telephone" class="col-sm-2 label-control">Téléphone</label>
+					<div class="col-sm-10">
+						<form:input path="telephone" type="tel" class="form-control" id="telephone" value="${client.telephone}" placeholder="Téléphone" pattern="^[0-9]{10}$" required="required"/>
+						<form:errors path="telephone" class="control-label"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="email" id="email" class="col-sm-2 label-control">Email</label>
+					<div class="col-sm-10">
+						<form:input path="email" type="text" class="form-control" id="email" value="${client.email}" placeholder="Email" required="required" />
+						<form:errors path="email" class="control-label"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="adresse" id="adresse" class="col-sm-2 label-control">Adresse</label>
+					<div class="col-sm-10">
+						<form:input path="adresse" type="text" class="form-control" id="adresse" value="${client.adresse}" placeholder="Adresse"  required="required"/>
+						<form:errors path="adresse" class="control-label"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="categorie" id="categorie" class="col-sm-2 label-control">Catégorie</label>
+					<div class="col-sm-10">
+							<form:select path="categorie" class="form-control">
+								<form:option value="Premium"/>
 								<form:options items="${categories}"/>
 							</form:select>
-						</td>
-	 					 <td align="left"><form:errors path="categorie" cssClass="error"/></td>
-	 				</tr>
-	 		        <tr>
-	                    <td></td>
-	                    <td align="center"><input type="submit" value="Modifier"/></td>
-	                    <td></td>
-	                </tr>
-	        </form:form>
-	        </table>
-		</c:if>
+						<form:errors path="categorie" class="control-label"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button class="btn btn-m btn-primary pull-right" type="submit">Modifier</button>
+					</div>
+				</div>
+        </form:form>
     </div>
 </body>
 </html>

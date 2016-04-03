@@ -13,27 +13,29 @@
 <body>
 	<div class="container">
 	       <table class="table table-bordered">
-	            <h2>Liste des clients</h2>
+	            <h2>Liste des fournisseurs</h2>
 	            <thead>
 	                <tr>
 	                    <th>ID</th>
 	                    <th>Nom</th>
 	                    <th>Prénom</th>
 	                    <th>Email</th>
+	                     <th>Adresse</th>
 	                    
 	                </tr>
 	            </thead>
 	            <tbody>
-	                <c:forEach items="${listClient}" var="client">
+	                <c:forEach items="${listFournisseur}" var="fournisseur">
 	                    <tr>
-	                        <td><c:out value="${client.id}"/></td>
-	                        <td><c:out value="${client.prenom}"/></td>
-	                        <td><c:out value="${client.nom}"/></td>
-	                        <td><c:out value="${client.email}"/></td>
+	                        <td><c:out value="${fournisseur.id}"/></td>
+	                        <td><c:out value="${fournisseur.prenom}"/></td>
+	                        <td><c:out value="${fournisseur.nom}"/></td>
+	                        <td><c:out value="${fournisseur.email}"/></td>
+	                        <td><c:out value="${fournisseur.adresse}"/></td>
 	                        <td>
-	                        	<spring:url value="/client/${client.id}" var="userUrl"></spring:url>
-	                        	<spring:url value="/client/${client.id}/edit" var="editUrl"></spring:url>
-	                        	<spring:url value="/client/${client.id}/delete" var="delUrl"></spring:url>
+	                        	<spring:url value="/fournisseur/${fournisseur.id}" var="userUrl"></spring:url>
+	                        	<spring:url value="/fournisseur/${fournisseur.id}/edit" var="editUrl"></spring:url>
+	                        	<spring:url value="/fournisseur/${fournisseur.id}/delete" var="delUrl"></spring:url>
 	                        	
 	                        	<button class="btn btn-success btn-sm" onclick="location.href='${userUrl}'">Afficher</button>
 	                        	<button class="btn btn-warning btn-sm" onclick="location.href='${editUrl}'">Editer</button>
